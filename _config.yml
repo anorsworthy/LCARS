@@ -1,4 +1,4 @@
-domain: anorsworthy.github.io       # if you want to force HTTPS, specify the domain without the http at the start, e.g. example.com
+domain: lcars.akiron.app       # if you want to force HTTPS, specify the domain without the http at the start, e.g. example.com
 url: https://lcars.akiron.app  # the base hostname and protocol for your site, e.g. http://example.com
 baseurl: /LCARS/index/      # place folder name if the site is served in a subfolder
 remote_theme: pages-themes/midnight@v0.2.0
