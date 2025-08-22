@@ -1,0 +1,89 @@
+<!-- LCARS Jellyfin Media Request Page (Classic Standard Theme)
+     Copy of classic-standard.html, customized for Jellyfin media requests. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LCARS Jellyfin Media Request</title>
+  <link rel="stylesheet" href="pihole-lcarsv5.css">
+  <link rel="preload" href="Antonio-Regular.woff2" as="font" type="font/woff2" crossorigin>
+</head>
+
+<body class="lcars-bg">
+  <div class="lcars-header bar-1 uppercase go-center">
+    <span>Jellyfin Media Request</span>
+  </div>
+  <div class="lcars-main-wrapper">
+    <div class="lcars-side left">
+      <div class="panel-1"></div>
+      <div class="panel-2"></div>
+    </div>
+    <main class="lcars-content go-center">
+      <!-- Start your content here. -->
+      <div class="lcars-card panel-3" style="max-width:600px;margin:auto;">
+        <h2 class="uppercase go-center">Request Media</h2>
+        <form id="media-request-form" class="lcars-form panel-2" autocomplete="off">
+          <div class="lcars-form-row">
+            <label for="media-title" class="lcars-label">Media Title:</label>
+            <input type="text" id="media-title" name="media-title" required class="lcars-input go-big" style="width:100%;">
+          </div>
+          <div class="lcars-form-row">
+            <label for="media-type" class="lcars-label">Type:</label>
+            <select id="media-type" name="media-type" required class="lcars-input">
+              <option value="movie">Movie</option>
+              <option value="tv">TV Show</option>
+              <option value="music">Music</option>
+            </select>
+          </div>
+          <div class="lcars-form-row">
+            <label for="notes" class="lcars-label">Notes (optional):</label>
+            <textarea id="notes" name="notes" rows="2" class="lcars-input" style="width:100%;"></textarea>
+          </div>
+          <div class="lcars-form-row">
+            <button type="submit" class="panel-5 go-big lcars-btn" style="margin-top:1em;width:100%;">Submit Request</button>
+          </div>
+        </form>
+        <div id="request-status" class="panel-4 go-center" style="margin-top:1em;"></div>
+      </div>
+      <div class="lcars-card panel-1" style="margin-top:2em;max-width:600px;margin:auto;">
+        <h3 class="uppercase">Recent Requests</h3>
+        <ul id="recent-requests" class="go-big"></ul>
+      </div>
+      <!-- End content area. -->
+    </main>
+    <div class="lcars-side right">
+      <div class="panel-4"></div>
+      <div class="panel-5"></div>
+    </div>
+  </div>
+  <footer class="bar-1 go-center lcars-footer">
+    <span>LCARS UI Template by <a href="https://github.com/Anorsworthy/LCARS" target="_blank">Adam Norsworthy</a></span>
+  </footer>
+  <script src="lcars.js"></script>
+  <script>
+    // Minimal JS for demo: store requests in localStorage
+    const form = document.getElementById('media-request-form');
+    const status = document.getElementById('request-status');
+    const recentList = document.getElementById('recent-requests');
+    function loadRequests() {
+      const reqs = JSON.parse(localStorage.getItem('jellyfinRequests') || '[]');
+      recentList.innerHTML = reqs.map(r => `<li><strong>${r.title}</strong> (${r.type})<br><em>${r.notes||''}</em></li>`).join('');
+    }
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const title = form['media-title'].value.trim();
+      const type = form['media-type'].value;
+      const notes = form['notes'].value.trim();
+      if (!title) return;
+      const reqs = JSON.parse(localStorage.getItem('jellyfinRequests') || '[]');
+      reqs.unshift({title, type, notes, date: Date.now()});
+      localStorage.setItem('jellyfinRequests', JSON.stringify(reqs.slice(0,10)));
+      status.textContent = 'Request submitted!';
+      form.reset();
+      loadRequests();
+    });
+    loadRequests();
+  </script>
+</body>
+</html>
