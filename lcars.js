@@ -2,6 +2,7 @@ document.addEventListener("touchstart", function() {},false);
 let mybutton = document.getElementById("topBtn");
 window.onscroll = function() {scrollFunction()};
 function scrollFunction() {
+  if (!mybutton) return; // Defensive null check
   if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
     mybutton.style.display = "block";
   } else {

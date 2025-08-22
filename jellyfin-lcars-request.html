@@ -5,70 +5,422 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LCARS Jellyfin Media Request</title>
+  <title>LCARS Jellyfin Media Dashboard</title>
   <link rel="stylesheet" href="pihole-lcarsv5.css">
-  <link rel="preload" href="Antonio-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <style>
+    @font-face {
+      font-family: 'Antonio';
+      src: url('Antonio-Regular.woff2') format('woff2'),
+           url('Antonio-Regular.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    body, .lcars-bg {
+      font-family: 'Futura Condensed', 'Antonio', Arial, sans-serif;
+    }
+    body.lcars-bg {
+      background: var(--color-background);
+      min-height: 100vh;
+    }
+    .lcars-header {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      letter-spacing: 0.15em;
+      font-size: 2.2rem;
+      background: var(--color-primary);
+      color: var(--color-primary-text);
+      border-radius: 0 0 32px 32px;
+      padding: 1.2em 0 0.7em 0;
+    }
+    .lcars-sidebar {
+      background: var(--color-secondary);
+      color: var(--color-primary-text);
+    }
+    .lcars-nav-title {
+      color: var(--color-link);
+    }
+    .lcars-dashboard-main {
+      background: var(--color-background);
+      color: var(--color-text);
+    }
+    .lcars-dashboard-stats {
+      display: flex;
+      gap: 2em;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      max-width: 900px;
+      background: var(--color-background);
+      color: var(--color-primary-text);
+      border-radius: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      padding: 1em 0.5em;
+    }
+    .lcars-card {
+      box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+      border-radius: 32px;
+      padding: 2em 2em 1.5em 2em;
+      background: var(--color-tertiary);
+      color: var(--color-primary-text);
+      margin-bottom: 1em;
+      transition: box-shadow 0.2s;
+    }
+    .lcars-card.panel-1 {
+      background: var(--color-secondary);
+      color: var(--color-primary-text);
+    }
+    .lcars-card.panel-3 {
+      background: var(--color-danger-bright);
+      color: var(--color-text-dark);
+    }
+    .lcars-card.panel-4 {
+      background: var(--color-red-alert);
+      color: var(--color-text-dark);
+    }
+    .lcars-card.panel-5 {
+      background: var(--color-success);
+      color: var(--color-text-dark);
+    }
+    .lcars-form-row {
+      display: flex;
+      align-items: center;
+      gap: 1em;
+      margin-bottom: 1.2em;
+    }
+    .lcars-label {
+      min-width: 120px;
+      font-weight: bold;
+      color: var(--color-link);
+      text-shadow: 0 1px 2px var(--color-background);
+    }
+    .lcars-input {
+      border-radius: 12px;
+      border: none;
+      padding: 0.7em 1em;
+      font-size: 1.1em;
+      background: var(--color-disabled);
+      color: var(--color-primary-text);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+      outline: none;
+      transition: background 0.2s;
+    }
+    .lcars-input:focus {
+      background: var(--color-success);
+      color: var(--color-success-dark);
+    }
+    .lcars-btn {
+      border-radius: 16px;
+      border: none;
+      font-size: 1.2em;
+      font-weight: bold;
+      background: var(--color-success);
+      color: var(--color-success-dark);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      cursor: pointer;
+      padding: 0.8em 0;
+      transition: background 0.2s, color 0.2s;
+    }
+    .lcars-btn:hover {
+      background: var(--color-tertiary-hover);
+      color: var(--color-background);
+    }
+    .panel-4.go-center {
+      font-size: 1.1em;
+      color: var(--color-danger-bright);
+      margin-top: 1em;
+    }
+    .recent-requests-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .recent-requests-list li {
+      background: var(--color-secondary);
+      color: var(--color-primary-text);
+      border-radius: 10px;
+      margin-bottom: 0.7em;
+      padding: 0.7em 1em;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+      font-size: 1.05em;
+      word-break: break-word;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--color-background);
+      color: var(--color-primary-text);
+    }
+    th, td {
+      padding: 0.8em;
+      text-align: left;
+      border-bottom: 1px solid var(--color-secondary-hover);
+    }
+    th {
+      background: var(--color-secondary-hover);
+      color: var(--color-link);
+      font-weight: bold;
+    }
+    tr:hover {
+      background: var(--color-supplement-02);
+    }
+    @media (max-width: 700px) {
+      .lcars-main-wrapper {
+        flex-direction: column;
+        gap: 0;
+      }
+      .lcars-side.left, .lcars-side.right {
+        flex-direction: row;
+        min-width: 0;
+        gap: 0.5em;
+        justify-content: center;
+      }
+      .lcars-content {
+        gap: 1em;
+      }
+      .lcars-card {
+        padding: 1em;
+      }
+    }
+  </style>
 </head>
 
 <body class="lcars-bg">
-  <div class="lcars-header bar-1 uppercase go-center">
-    <span>Jellyfin Media Request</span>
-  </div>
-  <div class="lcars-main-wrapper">
-    <div class="lcars-side left">
-      <div class="panel-1"></div>
-      <div class="panel-2"></div>
-    </div>
-    <main class="lcars-content go-center">
-      <!-- Start your content here. -->
-      <div class="lcars-card panel-3" style="max-width:600px;margin:auto;">
-        <h2 class="uppercase go-center">Request Media</h2>
-        <form id="media-request-form" class="lcars-form panel-2" autocomplete="off">
-          <div class="lcars-form-row">
-            <label for="media-title" class="lcars-label">Media Title:</label>
-            <input type="text" id="media-title" name="media-title" required class="lcars-input go-big" style="width:100%;">
+  <header class="lcars-header bar-1 uppercase go-center">
+    <span>Jellyfin Media Dashboard</span>
+  </header>
+  <div class="lcars-dashboard-wrapper" style="display:flex;min-height:80vh;">
+    <nav class="lcars-sidebar panel-1" style="width:220px;display:flex;flex-direction:column;align-items:center;gap:2em;padding-top:2em;">
+      <div class="lcars-nav-title go-big" style="margin-bottom:1em;">Navigation</div>
+      <a href="#" class="lcars-btn panel-5" style="width:90%;margin-bottom:0.5em;">Home</a>
+      <a href="#" class="lcars-btn panel-5" style="width:90%;margin-bottom:0.5em;">Requests</a>
+      <a href="#" class="lcars-btn panel-5" style="width:90%;margin-bottom:0.5em;">Fulfilled</a>
+      <a href="#" class="lcars-btn panel-5" style="width:90%;margin-bottom:0.5em;">Profile</a>
+    </nav>
+    <main class="lcars-dashboard-main lcars-content" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2em;padding:2em 0;">
+      <!-- Home Page: Dashboard stats and all requests table -->
+      <div id="page-Home">
+        <div class="lcars-dashboard-stats">
+          <div class="lcars-card panel-3" style="flex:1;min-width:180px;max-width:220px;text-align:center;">
+            <div class="go-big" id="stat-total">Total Requests: <span>0</span></div>
           </div>
-          <div class="lcars-form-row">
-            <label for="media-type" class="lcars-label">Type:</label>
-            <select id="media-type" name="media-type" required class="lcars-input">
-              <option value="movie">Movie</option>
-              <option value="tv">TV Show</option>
-              <option value="music">Music</option>
-            </select>
+          <div class="lcars-card panel-4" style="flex:1;min-width:180px;max-width:220px;text-align:center;">
+            <div class="go-big" id="stat-fulfilled">Fulfilled: <span>0</span></div>
           </div>
-          <div class="lcars-form-row">
-            <label for="notes" class="lcars-label">Notes (optional):</label>
-            <textarea id="notes" name="notes" rows="2" class="lcars-input" style="width:100%;"></textarea>
+          <div class="lcars-card panel-5" style="flex:1;min-width:180px;max-width:220px;text-align:center;">
+            <div class="go-big" id="stat-pending">Pending: <span>0</span></div>
           </div>
-          <div class="lcars-form-row">
-            <button type="submit" class="panel-5 go-big lcars-btn" style="margin-top:1em;width:100%;">Submit Request</button>
+        </div>
+        <div class="lcars-card panel-3" style="width:100%;max-width:600px;margin:auto;">
+          <h2 class="uppercase go-center">Request Media</h2>
+          <div id="login-section">
+            <form id="login-form" class="lcars-form panel-2" autocomplete="off">
+              <div class="lcars-form-row">
+                <label for="username" class="lcars-label">Username:</label>
+                <input type="text" id="username" name="username" required class="lcars-input go-big" style="width:100%;">
+              </div>
+              <div class="lcars-form-row">
+                <button type="submit" class="panel-5 go-big lcars-btn" style="margin-top:1em;width:100%;">Login</button>
+              </div>
+            </form>
           </div>
-        </form>
-        <div id="request-status" class="panel-4 go-center" style="margin-top:1em;"></div>
+          <form id="media-request-form" class="lcars-form panel-2" autocomplete="off" style="display:none;">
+            <div class="lcars-form-row">
+              <label for="media-title" class="lcars-label">Media Title:</label>
+              <input type="text" id="media-title" name="media-title" required class="lcars-input go-big" style="width:100%;">
+            </div>
+            <div class="lcars-form-row">
+              <label for="media-type" class="lcars-label">Type:</label>
+              <select id="media-type" name="media-type" required class="lcars-input">
+                <option value="movie">Movie</option>
+                <option value="tv">TV Show</option>
+                <option value="music">Music</option>
+              </select>
+            </div>
+            <div class="lcars-form-row">
+              <label for="notes" class="lcars-label">Notes (optional):</label>
+              <textarea id="notes" name="notes" rows="2" class="lcars-input" style="width:100%;"></textarea>
+            </div>
+            <div class="lcars-form-row">
+              <button type="submit" class="panel-5 go-big lcars-btn" style="margin-top:1em;width:100%;">Submit Request</button>
+            </div>
+          </form>
+          <div id="request-status" class="panel-4 go-center" style="margin-top:1em;"></div>
+          <div id="user-info" class="panel-4 go-center" style="margin-top:1em;display:none;"></div>
+        </div>
+        <div class="lcars-card panel-1" style="width:100%;max-width:600px;margin:auto;">
+          <h3 class="uppercase">All Requests</h3>
+          <table id="recent-requests-table" class="go-big recent-requests-list" style="width:100%;border-collapse:collapse;">
+            <thead>
+              <tr>
+                <th class="lcars-label">Title</th>
+                <th class="lcars-label">Type</th>
+                <th class="lcars-label">Status</th>
+                <th class="lcars-label">Notes</th>
+                <th class="lcars-label">User</th>
+                <th class="lcars-label">Requested</th>
+                <th class="lcars-label">Fulfilled</th>
+                <th class="lcars-label">Action</th>
+              </tr>
+            </thead>
+            <tbody id="recent-requests"></tbody>
+          </table>
+        </div>
       </div>
-      <div class="lcars-card panel-1" style="margin-top:2em;max-width:600px;margin:auto;">
-        <h3 class="uppercase">Recent Requests</h3>
-        <ul id="recent-requests" class="go-big"></ul>
+      <!-- Fulfilled Page -->
+      <div id="page-Fulfilled" style="display:none;width:100%;max-width:700px;margin:auto;">
+        <div class="lcars-card panel-4">
+          <h3 class="uppercase">Fulfilled Requests</h3>
+          <table class="go-big recent-requests-list" style="width:100%;border-collapse:collapse;">
+            <thead>
+              <tr>
+                <th class="lcars-label">Title</th>
+                <th class="lcars-label">Notes</th>
+                <th class="lcars-label">User</th>
+                <th class="lcars-label">Date Fulfilled</th>
+              </tr>
+            </thead>
+            <tbody id="fulfilled-requests"></tbody>
+          </table>
+        </div>
       </div>
-      <!-- End content area. -->
+      <!-- Pending Page -->
+      <div id="page-Pending" style="display:none;width:100%;max-width:700px;margin:auto;">
+        <div class="lcars-card panel-5">
+          <h3 class="uppercase">Pending Requests</h3>
+          <table class="go-big recent-requests-list" style="width:100%;border-collapse:collapse;">
+            <thead>
+              <tr>
+                <th class="lcars-label">Title</th>
+                <th class="lcars-label">Notes</th>
+                <th class="lcars-label">User</th>
+                <th class="lcars-label">Date Requested</th>
+              </tr>
+            </thead>
+            <tbody id="pending-requests"></tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Profile Page -->
+      <div id="page-Profile" style="display:none;width:100%;max-width:600px;margin:auto;">
+        <div class="lcars-card panel-1">
+          <h3 class="uppercase">Profile</h3>
+          <div id="profile-info" class="go-center" style="font-size:1.2em;padding:1em;"></div>
+        </div>
+      </div>
     </main>
-    <div class="lcars-side right">
-      <div class="panel-4"></div>
-      <div class="panel-5"></div>
-    </div>
   </div>
-  <footer class="bar-1 go-center lcars-footer">
-    <span>LCARS UI Template by <a href="https://github.com/Anorsworthy/LCARS" target="_blank">Adam Norsworthy</a></span>
-  </footer>
+  <!-- Add topBtn for scroll-to-top functionality -->
+<button id="topBtn" class="panel-5 lcars-btn" style="display:none;position:fixed;bottom:32px;right:32px;z-index:1000;">Top</button>
   <script src="lcars.js"></script>
   <script>
-    // Minimal JS for demo: store requests in localStorage
+    // Simple login and request tracking
+    const loginForm = document.getElementById('login-form');
+    const loginSection = document.getElementById('login-section');
+    const userInfo = document.getElementById('user-info');
     const form = document.getElementById('media-request-form');
     const status = document.getElementById('request-status');
     const recentList = document.getElementById('recent-requests');
+    let currentUser = localStorage.getItem('jellyfinUser') || '';
+
+    function showLogin() {
+      loginSection.style.display = '';
+      form.style.display = 'none';
+      userInfo.style.display = 'none';
+    }
+    function showUser() {
+      loginSection.style.display = 'none';
+      form.style.display = '';
+      userInfo.style.display = '';
+      userInfo.textContent = `Logged in as: ${currentUser}`;
+    }
+    function formatDate(ts) {
+      const d = new Date(ts);
+      const month = String(d.getMonth()+1).padStart(2,'0');
+      const day = String(d.getDate()).padStart(2,'0');
+      const hh = String(d.getHours()).padStart(2,'0');
+      const mm = String(d.getMinutes()).padStart(2,'0');
+      return `${month}/${day} ${hh}:${mm}`;
+    }
     function loadRequests() {
       const reqs = JSON.parse(localStorage.getItem('jellyfinRequests') || '[]');
-      recentList.innerHTML = reqs.map(r => `<li><strong>${r.title}</strong> (${r.type})<br><em>${r.notes||''}</em></li>`).join('');
+      // Update stat cards
+      document.querySelector('#stat-total span').textContent = reqs.length;
+      document.querySelector('#stat-fulfilled span').textContent = reqs.filter(r => r.fulfilled).length;
+      document.querySelector('#stat-pending span').textContent = reqs.filter(r => !r.fulfilled).length;
+      // Home: all requests table
+      const recentList = document.getElementById('recent-requests');
+      if (recentList) {
+        recentList.innerHTML = reqs.map((r, idx) => {
+          let statusBadge = r.fulfilled ? '<span style="color:#0bd08a;font-weight:bold;">Fulfilled</span>' : '<span style="color:#f3705;font-weight:bold;">Requested</span>';
+          let fulfillBtn = (!r.fulfilled && r.user === currentUser) ? `<button class=\"lcars-btn\" style=\"font-size:0.9em;\" onclick=\"fulfillRequest(${idx})\">Mark Fulfilled</button>` : '';
+          let requestedTime = r.date ? formatDate(r.date) : '';
+          let fulfilledTime = r.fulfilledDate ? formatDate(r.fulfilledDate) : '';
+          return `<tr>
+            <td>${r.title}</td>
+            <td>${r.type}</td>
+            <td>${statusBadge}</td>
+            <td>${r.notes||''}</td>
+            <td>${r.user||'anon'}</td>
+            <td>${requestedTime}</td>
+            <td>${fulfilledTime}</td>
+            <td>${fulfillBtn}</td>
+          </tr>`;
+        }).join('');
+      }
+      // Fulfilled page table
+      const fulfilledList = document.getElementById('fulfilled-requests');
+      if (fulfilledList) {
+        fulfilledList.innerHTML = reqs.filter(r => r.fulfilled).map(r => {
+          let fulfilledTime = r.fulfilledDate ? formatDate(r.fulfilledDate) : '';
+          return `<tr>
+            <td>${r.title}</td>
+            <td>${r.notes||''}</td>
+            <td>${r.user||'anon'}</td>
+            <td>${fulfilledTime}</td>
+          </tr>`;
+        }).join('');
+      }
+      // Pending page table
+      const pendingList = document.getElementById('pending-requests');
+      if (pendingList) {
+        pendingList.innerHTML = reqs.filter(r => !r.fulfilled).map(r => {
+          let requestedTime = r.date ? formatDate(r.date) : '';
+          return `<tr>
+            <td>${r.title}</td>
+            <td>${r.notes||''}</td>
+            <td>${r.user||'anon'}</td>
+            <td>${requestedTime}</td>
+          </tr>`;
+        }).join('');
+      }
+      // Profile page info
+      const profileInfo = document.getElementById('profile-info');
+      if (profileInfo) {
+        profileInfo.textContent = currentUser ? `Logged in as: ${currentUser}` : 'Not logged in.';
+      }
+    }
+    window.fulfillRequest = function(idx) {
+      const reqs = JSON.parse(localStorage.getItem('jellyfinRequests') || '[]');
+      if (reqs[idx] && reqs[idx].user === currentUser) {
+        reqs[idx].fulfilled = true;
+        reqs[idx].fulfilledDate = Date.now();
+        localStorage.setItem('jellyfinRequests', JSON.stringify(reqs));
+        loadRequests();
+      }
+    }
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const username = loginForm['username'].value.trim();
+      if (!username) return;
+      currentUser = username;
+      localStorage.setItem('jellyfinUser', currentUser);
+      showUser();
+      loadRequests();
+    });
+    if (currentUser) {
+      showUser();
+    } else {
+      showLogin();
     }
     form.addEventListener('submit', function(e) {
       e.preventDefault();
@@ -77,13 +429,41 @@
       const notes = form['notes'].value.trim();
       if (!title) return;
       const reqs = JSON.parse(localStorage.getItem('jellyfinRequests') || '[]');
-      reqs.unshift({title, type, notes, date: Date.now()});
+      reqs.unshift({title, type, notes, date: Date.now(), user: currentUser, fulfilled: false});
       localStorage.setItem('jellyfinRequests', JSON.stringify(reqs.slice(0,10)));
       status.textContent = 'Request submitted!';
       form.reset();
       loadRequests();
     });
     loadRequests();
+    // Defensive null checks for lcars.js compatibility
+    try {
+      var el1 = document.getElementById('some-lcars-element');
+      if (el1) el1.style.display = 'block';
+    } catch(e) {}
+
+    // Navigation page logic
+    const navLinks = document.querySelectorAll('.lcars-sidebar .lcars-btn');
+    const pages = {
+      Home: document.getElementById('page-Home'),
+      Fulfilled: document.getElementById('page-Fulfilled'),
+      Pending: document.getElementById('page-Pending'),
+      Profile: document.getElementById('page-Profile')
+    };
+    function showPage(page) {
+      Object.values(pages).forEach(el => el && (el.style.display = 'none'));
+      if (pages[page]) pages[page].style.display = '';
+      loadRequests();
+    }
+    navLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const label = link.textContent.trim();
+        showPage(label);
+      });
+    });
+    // Show Home by default
+    showPage('Home');
   </script>
 </body>
 </html>
