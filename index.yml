@@ -1,3 +1,5 @@
 layout: 
   page title: INDEX 
-  permalink: /index/
+layout: page
+page title: INDEX
+permalink: /index/
