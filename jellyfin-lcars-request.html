@@ -190,11 +190,10 @@
   </header>
   <div class="lcars-dashboard-wrapper" style="display:flex;min-height:80vh;">
     <nav class="lcars-sidebar panel-1" style="width:220px;display:flex;flex-direction:column;align-items:center;gap:2em;padding-top:2em;">
-      <div class="lcars-nav-title go-big" style="margin-bottom:1em;">Navigation</div>
-      <a href="#" class="lcars-btn panel-5" style="width:90%;margin-bottom:0.5em;">Home</a>
-      <a href="#" class="lcars-btn panel-5" style="width:90%;margin-bottom:0.5em;">Requests</a>
-      <a href="#" class="lcars-btn panel-5" style="width:90%;margin-bottom:0.5em;">Fulfilled</a>
-      <a href="#" class="lcars-btn panel-5" style="width:90%;margin-bottom:0.5em;">Profile</a>
+  <div class="lcars-nav-title go-big" style="margin-bottom:1em;">Navigation</div>
+  <a href="#" class="lcars-btn panel-5" style="width:90%;margin-bottom:0.5em;">Home</a>
+  <a href="#" class="lcars-btn panel-5" style="width:90%;margin-bottom:0.5em;">Requests</a>
+  <a href="#" class="lcars-btn panel-5" style="width:90%;margin-bottom:0.5em;">Fulfilled</a>
     </nav>
     <main class="lcars-dashboard-main lcars-content" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2em;padding:2em 0;">
       <!-- Home Page: Dashboard stats and all requests table -->
@@ -298,13 +297,6 @@
             </thead>
             <tbody id="pending-requests"></tbody>
           </table>
-        </div>
-      </div>
-      <!-- Profile Page -->
-      <div id="page-Profile" style="display:none;width:100%;max-width:600px;margin:auto;">
-        <div class="lcars-card panel-1">
-          <h3 class="uppercase">Profile</h3>
-          <div id="profile-info" class="go-center" style="font-size:1.2em;padding:1em;"></div>
         </div>
       </div>
     </main>
@@ -447,8 +439,7 @@
     const pages = {
       Home: document.getElementById('page-Home'),
       Fulfilled: document.getElementById('page-Fulfilled'),
-      Pending: document.getElementById('page-Pending'),
-      Profile: document.getElementById('page-Profile')
+      Pending: document.getElementById('page-Pending')
     };
     function showPage(page) {
       Object.values(pages).forEach(el => el && (el.style.display = 'none'));
