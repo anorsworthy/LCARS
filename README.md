@@ -1,3 +1,4 @@
+```markdown
 # LCARS Media Request Dashboard
 
 A modular, visually engaging media request dashboard inspired by the Star Trek LCARS interface. Designed for families, fans, and non-technical users, with clarity and accessibility at its core.
@@ -27,3 +28,32 @@ Guided by the [LCARS Manifesto](http://www.lcars-terminal.de/tutorial/manifesto.
 1. **Clone the Repo**
    ```sh
    git clone https://github.com/YOUR_ORG/lcars-media-dashboard.git
+   ```
+2. **Install Dependencies**
+   ```sh
+   npm install
+   ```
+3. **Configure Environment**
+   - Set up Active Directory, Jellyfin, and IMDB API keys in `config.example.json`.
+4. **Run Locally**
+   ```sh
+   npm start
+   ```
+5. **Deploy**
+   - Host on IIS (LAN) or deploy the static version to GitHub Pages or Cloudflare.
+
+## Contributing
+
+LCARS fans and developers welcome!
+- Fork, extend, or create new panels using modular design.
+- See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+
+## License
+
+MIT
+
+## Credits
+
+Inspired by [LCARS Manifesto](http://www.lcars-terminal.de/tutorial/manifesto.htm), [louh/lcars](https://github.com/louh/lcars), and Star Trek.
+```
+----
