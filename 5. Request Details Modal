@@ -1,20 +1,13 @@
-## 4. Admin Panel
+## 5. Request Details Modal
 
 ```
-----------------------------------------------------------
-| LCARS ADMIN HEADER RIBBON                             |
-| [Dashboard] [Pending Requests] [Audit Log] [Settings] |
-----------------------------------------------------------
-|                                                        |
-|   [ PENDING REQUESTS TABLE ]                           |
-|   ---------------------------------------------------  |
-|   | Poster | Title | User | Status | Actions          |
-|   |------- |------ |------|--------|----------------- |
-|   | Img    | ST:TNG| Sam  | Pending| [Approve][Deny] |
-|   ---------------------------------------------------  |
-|                                                        |
-|   [ AUDIT LOG PANEL ]                                  |
-|   [ OVERRIDE/ADMIN RIBBON ]                            |
-----------------------------------------------------------
-| LCARS FOOTER RIBBON                                    |
-----------------------------------------------------------
+------------------------------------------
+| LCARS MODAL RIBBON                    |
+| [POSTER]   [Title] [Year] [Genre]     |
+|----------------------------------------|
+| Requested by: Sam                     |
+| Status: Pending                       |
+| Additional Info: ...                  |
+|----------------------------------------|
+| [MODIFY] [WITHDRAW] [CLOSE]           |
+------------------------------------------
