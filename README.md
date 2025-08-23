@@ -1,4 +1,3 @@
-```markdown
 # LCARS Media Request Dashboard
 
 A modular, visually engaging media request dashboard inspired by the Star Trek LCARS interface. Designed for families, fans, and non-technical users, with clarity and accessibility at its core.
@@ -55,5 +54,3 @@ MIT
 ## Credits
 
 Inspired by [LCARS Manifesto](http://www.lcars-terminal.de/tutorial/manifesto.htm), [louh/lcars](https://github.com/louh/lcars), and Star Trek.
-```
-----
