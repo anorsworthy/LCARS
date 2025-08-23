@@ -1,0 +1,74 @@
+## 2. Main Dashboard
+
+```
+-----------------------------------------------------------
+| LCARS NAV HEADER RIBBON                                 |
+| [Dashboard] [Request Media] [Admin Panel] [Help]        |
+-----------------------------------------------------------
+|                                                         |
+|   [ STATISTICS PANEL ]   [ GENRE COUNTER PANEL ]        |
+|   -------------------   -------------------------       |
+|   | Movies: 10      |   | Action: 4 | Drama: 2 | ... |  |
+|   | Requests: 3     |   -------------------------       |
+|   -------------------                                  |
+|                                                         |
+|   [ UNIFIED MEDIA TABLE ]                               |
+|   ---------------------------------------------------   |
+|   | Poster | Title | Type | Genre | Year | Requested By |
+|   |------- |-------|------|-------|------|------------- |
+|   | Img    | StarTrek | Movie | SciFi |2023| Sam        |
+|   | Img    | Moana    | Movie | Anim |2016| Jill        |
+|   ---------------------------------------------------   |
+|                                                         |
+|   [ STATUS/ERROR RIBBON ]                               |
+-----------------------------------------------------------
+| LCARS FOOTER RIBBON                                     |
+-----------------------------------------------------------
+
+
+```
+
+---
+
+## 4. Admin Panel
+
+```
+----------------------------------------------------------
+| LCARS ADMIN HEADER RIBBON                             |
+| [Dashboard] [Pending Requests] [Audit Log] [Settings] |
+----------------------------------------------------------
+|                                                        |
+|   [ PENDING REQUESTS TABLE ]                           |
+|   ---------------------------------------------------  |
+|   | Poster | Title | User | Status | Actions          |
+|   |------- |------ |------|--------|----------------- |
+|   | Img    | ST:TNG| Sam  | Pending| [Approve][Deny] |
+|   ---------------------------------------------------  |
+|                                                        |
+|   [ AUDIT LOG PANEL ]                                  |
+|   [ OVERRIDE/ADMIN RIBBON ]                            |
+----------------------------------------------------------
+| LCARS FOOTER RIBBON                                    |
+----------------------------------------------------------
+```
+
+---
+
+## 5. Request Details Modal
+
+```
+------------------------------------------
+| LCARS MODAL RIBBON                    |
+| [POSTER]   [Title] [Year] [Genre]     |
+|----------------------------------------|
+| Requested by: Sam                     |
+| Status: Pending                       |
+| Additional Info: ...                  |
+|----------------------------------------|
+| [MODIFY] [WITHDRAW] [CLOSE]           |
+------------------------------------------
+```
+
+---
+
+If you want visual Figma/Sketch mockups, code skeletons, or a more detailed UI breakdown, just let me know!
