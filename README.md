@@ -1,38 +1,29 @@
-# LCARS
+# LCARS Media Request Dashboard
 
-*************************
-*	LCARS Ultra  		*
-*	Version 23-B		*
-*	September 8, 2023	*
-*************************
+A modular, visually engaging media request dashboard inspired by the Star Trek LCARS interface. Designed for families, fans, and non-technical users, with clarity and accessibility at its core.
 
-There are 2 HTML templates included with each theme.
+## Manifesto
 
-Classic Theme:
-	lcars-standard-classic.html
-	lcars-ultra-classic.html
+Guided by the [LCARS Manifesto](http://www.lcars-terminal.de/tutorial/manifesto.htm):
 
-Nemesis Blue Theme:
-	lcars-standard-nemesis-blue.html
-	lcars-ultra-nemesis-blue.html
+- **Functionality, Simplicity, Clarity:** Every screen, panel, and button serves a distinct purpose. No clutter, no redundancy.
+- **Modular Segmentation:** Information is organized into visually distinct panels (ribbons, blocks), each with a clear function.
+- **Color and Contrast:** Color bands separate and highlight segments for navigational and informational clarity.
+- **Intuitive Navigation:** Large, touch-friendly buttons and clear labels for seamless exploration.
+- **Accessibility:** Bold fonts, high contrast, and simple flows for users of all ages.
+- **Responsiveness:** Adapts perfectly to desktops, tablets, and phones—always in LCARS style.
 
-Picard Theme:
-	lcars-standard-picard.html
-	lcars-ultra-picard.html
+## Features
 
+- **Unified Media Table:** Requests and existing media shown in a single, segmented table.
+- **Request Panel:** Submit new media requests with instant feedback and poster previews.
+- **Admin Panel:** Approve/deny requests, audit logs, all in dedicated segments.
+- **Live Validation:** IMDB integration for real-time title suggestions and images.
+- **Authentication:** Active Directory login for secure, family-friendly usage.
+- **Responsive Design:** Seamlessly adapts to any device, always LCARS.
 
-Ultra was designed for desktop/widescreen devices. Both Ultra and Standard share the same iconic LCARS layout, but Ultra is joined by additional LCARS-style elements. At smaller viewport sizes, the Ultra elements are shed leaving only the traditional standard LCARS layout.
+## Getting Started
 
-
-****** Picard HTML Elements ******
-
-Included with 23-B is a web page filled with HTML elements for the Picard Theme:
-
-	HTML-Elements-Picard.html
-
-You can use this page for reference. Many of the HTML elements also work with the other themes.
-
-
-****** All Themes Updated ******
-
-Significant CSS Updates were made to all CSS files for all themes included in this release.
+1. **Clone the Repo**
+   ```sh
+   git clone https://github.com/YOUR_ORG/lcars-media-dashboard.git
