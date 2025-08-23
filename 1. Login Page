@@ -1,1 +1,12 @@
 ## 1. Login Page
+| LCARS HEADER RIBBON |
+| [LCARS LOGO]    [Help] |
+| |
+| [ LOGIN PANEL ] |
+| -------------------------------------------- |
+| | Username: [______________] | |
+| | Password: [______________] | |
+| | [ LOGIN BUTTON ] | |
+| -------------------------------------------- |
+| |
+| [ ERROR RIBBON ] (visible only on error) |
